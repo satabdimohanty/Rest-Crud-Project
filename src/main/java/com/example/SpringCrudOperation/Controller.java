@@ -1,6 +1,7 @@
 package com.example.SpringCrudOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,11 @@ return ResponseEntity.ok(student11);
         updateStud.setCity(student.getCity());
         studRepository.save(updateStud);
         return ResponseEntity.ok(updateStud);
+    }
+    @DeleteMapping("/deleteStud/{id}")
+    public ResponseEntity<Student>deleteStud(@PathVariable int id,@RequestBody Student student) {
+        Student deleteStud = studRepository.findById(id).orElseThrow(() -> new ResourceNotFound("this id is not present" + id));
+    studRepository.delete(deleteStud);
+    return new ResponseEntity<>(HttpStatus .NO_CONTENT);
     }
 }
